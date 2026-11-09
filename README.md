@@ -1,25 +1,22 @@
-# Task Dashboard
+# Studywise
 
-A task management application that allows users to create, organize, and filter tasks using a modern, responsive UI built with React.
+A browser-based learning workspace that turns uploaded study material into a guided reading outline and a short knowledge check.
 
-> **Note:** This application is intended for demonstration purposes only and is not meant for production use.
+> **Prototype:** Learning content is generated locally using simple text patterns. It is not generative AI and may miss context or produce imperfect questions.
 
 ## Features
 
-- **Task Management**: Create, complete, and delete tasks
-- **Task Tags**: Organize tasks with customizable tags
-- **Task Lists**: Create multiple lists with custom filters
-- **List Filters**: Filter tasks by tags or completion status
-- **Animations**: Smooth transitions and animations using Framer Motion
-- **Responsive Design**: Works on desktop and mobile devices
+- **Local file processing**: Read PDF, DOCX, TXT, and Markdown files in the browser. Files are not sent to a server.
+- **Guided lecture**: Review an overview, key ideas, and terms derived from extracted text.
+- **Knowledge check**: Answer fill-in-the-blank questions based on source sentences, with immediate feedback and a score.
+- **Recent sessions**: Reopen documents during the current page session.
+- **Responsive interface**: Study on mobile and desktop.
 
-## Technology Stack
+## Technology
 
-- **React**: Modern React with functional components and hooks
-- **Tailwind CSS**: Utility-first CSS framework for styling
-- **Framer Motion**: Animation library for React
-- **Vite**: Fast, modern build tool and development server
-- **Vitest**: Testing framework compatible with Vite
+- React 19 with functional components and hooks
+- Tailwind CSS 4 and Heroicons
+- Vite and Vitest
 
 ## Getting Started
 
@@ -30,75 +27,32 @@ A task management application that allows users to create, organize, and filter 
 
 ### Installation
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/task-dashboard.git
-   cd task-dashboard
-   ```
+```bash
+npm install
+npm start
+```
 
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-3. Start the development server:
-   ```bash
-   npm start
-   ```
-
-4. Open [http://localhost:3000](http://localhost:3000) to view the app
+Open [http://localhost:3000](http://localhost:3000).
 
 ### Available Scripts
 
 - `npm start` - Start the development server
-- `npm start:hydrated` - Start the development server with data hydration enabled
 - `npm run build` - Build for production
-- `npm run build:hydrated` - Build for production with data hydration enabled
-- `npm run build:clean` - Build for production with data hydration explicitly disabled
-- `npm run preview` - Preview the production build locally
-- `npm run preview:hydrated` - Preview the production build with data hydration enabled
-- `npm test` - Run tests with Vitest
+- `npm test` - Run the test suite with Vitest
 
-### Data Hydration
+## File support and privacy
 
-The application supports pre-populating the app with sample data through an optional hydration process:
+Text and Markdown are read directly by the browser. DOCX text is read from the document XML; PDF text is extracted from common uncompressed and Flate-compressed text streams. Image-only/scanned PDFs need OCR, and unusual PDF filters, custom font encodings, or complex documents may not extract completely. For best results, use files with selectable text and a modern browser.
 
-- Sample data is defined in `src/data/initialData.json`
-- Hydration can be enabled/disabled using the `VITE_ENABLE_DATA_HYDRATION` environment variable
-- Use the convenience scripts for development with hydration:
-  - `npm run start:hydrated` - Development with sample data
-  - `npm run build:hydrated` - Production build with sample data
-  - `npm run build:clean` - Production build without sample data
-- GitHub Actions deployment automatically enables hydration for the production build
+The current prototype keeps documents and study sessions in memory only; refreshing the page clears them. There is no account, upload service, or external AI provider configured. A future AI-powered version will need a provider decision and a server-side integration so provider credentials are never exposed in browser code.
 
-## Architecture
+## Project structure
 
-### State Management
-
-The application uses React Context for state management:
-
-- **TaskContext**: Manages tasks state and operations (add, toggle, delete)
-- **TagContext**: Manages tags and their relationships with tasks
-- **ListContext**: Manages task lists and filtering logic
-
-### UI Components
-
-The application features several key components:
-- **TaskList**: Renders a list of tasks
-- **TaskItem**: Renders an individual task
-- **TaskBoard**: Manages multiple task lists
-- **TagManager**: Interface for creating and managing tags
-- **GlobalTaskForm**: Form for creating new tasks
-- **ListAddTask**: Form for adding tasks to specific lists
-- **TaskListConfig**: Interface for configuring task lists
-
-## Contributing
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+- `src/App.jsx` - Learning library and study-session interface
+- `src/features/learning/services/fileTextExtractor.js` - Browser-side text extraction for supported formats
+- `src/features/learning/services/localStudyGenerator.js` - Local outline, terms, and quiz generation
+- `src/features/learning/services/*.test.js` - Extraction and generation tests
+- `src/context` and `src/features/tasks`, `lists`, and `tags` - Existing task-dashboard components retained for reference
 
 ## License
 
